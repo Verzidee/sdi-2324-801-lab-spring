@@ -1,34 +1,45 @@
 package com.uniovi.notaneitor.controllers;
 
 import com.uniovi.notaneitor.entities.Mark;
+import com.uniovi.notaneitor.services.MarksService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MarksController {
 
+    @Autowired
+    private MarksService marksService;
+
     @RequestMapping("/mark/list")
     public String getList() {
-        return "Getting List";
-    }
-/* Vamos a hacer que getDetail sea una peticion post
-1-. -Primero vamos a indicar que la URL admite peticiones POST por defecto esta puesto que admite peticiones GET
-    añadiendo al @RequestMapping "method = RequestMethod.POST"
-    -En segundo lugar vamos a declarar los parametros que pueden venir contenidos en el cuerpo (Body) de la peticion
-    POST, como sabemos que el body va a contener un parametro email y otro score (puntuacion) los agregamos
-    @RequestMapping(value = "/mark/add",method = RequestMethod.POST)
-    public String setMark(@RequestParam String description, @RequestParam String score) {
-        return "Added: "+ description + "with score: " + score;
-    }
-2-. Pero existe otra forma más directa de recibir parámetros. Cuando todos los parámetros
-corresponden a una misma entidad, podemos mapearlos directamente a un objeto.
-*/
 
-    @RequestMapping(value = "/mark/add",method = RequestMethod.POST)
-    public String setMark(@ModelAttribute Mark mark) {
-        return "added: " + mark.getDescription()
-                + " with score : " + mark.getScore()
-                + " id: " + mark.getId();
+        return marksService.getMarks().toString();
     }
+
+    @RequestMapping(value = "/mark/add", method = RequestMethod.POST)
+    public String setMark(@ModelAttribute Mark mark) {
+        marksService.addMark(mark);
+        return "Ok";
+    }
+
+    @RequestMapping("/mark/details/{id}")
+    public String getDetail(@PathVariable Long id) {
+        return marksService.getMark(id).toString();
+    }
+
+    @RequestMapping("/mark/delete/{id}")
+    public String deleteMark(@PathVariable Long id) {
+        marksService.deleteMark(id);
+        return "Ok";
+    }
+
+
+}
+
+
+
+
 
 
 /*Vamos a hacer que getDetail sea una peticion GET hay dos formas
@@ -45,10 +56,29 @@ http://localhost:8090/mark/details?id=4 http://localhost:8090/mark/details?anoth
 2-.Otra forma común de incluir parámetros GET es en el propio Path, sin tener que indicar
 la clave del parámetro, sino que la clave viene dada por su posición en el Path.
 http://localhost:8090/mark/details/5
-*/
-    @RequestMapping("/mark/details/{id}")
+@RequestMapping("/mark/details/{id}")
     public String getDetail(@PathVariable Long id) {
         return "Getting Details =>"+ id;
     }
+*/
 
-}
+/* Vamos a hacer que getDetail sea una peticion post
+1-. -Primero vamos a indicar que la URL admite peticiones POST por defecto esta puesto que admite peticiones GET
+    añadiendo al @RequestMapping "method = RequestMethod.POST"
+    -En segundo lugar vamos a declarar los parametros que pueden venir contenidos en el cuerpo (Body) de la peticion
+    POST, como sabemos que el body va a contener un parametro email y otro score (puntuacion) los agregamos
+    @RequestMapping(value = "/mark/add",method = RequestMethod.POST)
+    public String setMark(@RequestParam String description, @RequestParam String score) {
+        return "Added: "+ description + "with score: " + score;
+    }
+2-. Pero existe otra forma más directa de recibir parámetros. Cuando todos los parámetros
+corresponden a una misma entidad, podemos mapearlos directamente a un objeto.
+
+    @RequestMapping(value = "/mark/add",method = RequestMethod.POST)
+    public String setMark(@ModelAttribute Mark mark) {
+        return "added: " + mark.getDescription()
+                + " with score : " + mark.getScore()
+                + " id: " + mark.getId();
+    }
+*/
+
