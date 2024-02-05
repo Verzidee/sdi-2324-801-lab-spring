@@ -1,0 +1,39 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head"></head>
+<body>
+<nav th:replace="fragments/nav"></nav>
+
+<div class="container" id="main-container">
+    <h2>Detalles del profesor</h2>
+    <div class="card">
+        <div class="card-header">Dni</div>
+        <div class="card-body">
+            <p class="card-text" th:text="${professor.dni}">89669282h</p>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-header">Nombre</div>
+        <div class="card-body">
+            <p class="card-text" th:text="${professor.nombre}">Zohaib</p>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-header">Apellidos</div>
+        <div class="card-body">
+            <p class="card-text" th:text="${professor.apellidos}">Akhtar</p>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-header">Categoría</div>
+        <div class="card-body">
+            <p class="card-text" th:text="${professor.categoria}">Becario</p>
+        </div>
+    </div>
+</div>
+<footer th:replace="fragments/footer"></footer>
+</body>
+</html>
