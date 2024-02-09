@@ -42,6 +42,7 @@ public class ProfessorController {
         return "redirect:/professor/list";
     }
 
+    //Se me habia olvidado hacer el commit del ejercicio complementario 3 por lo que tuve que eliminar y solo dejar la parte del eje 3 por eso los commits son con tan poca diferencia de tiempo
     @RequestMapping(value="/professor/edit/{id}", method=RequestMethod.POST)
     public String setEdit(@ModelAttribute Professor professor, @PathVariable Long id){
         professor.setId(id);
