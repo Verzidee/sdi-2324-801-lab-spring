@@ -42,7 +42,7 @@ public class ProfessorController {
         return "redirect:/professor/list";
     }
 
-    //Se me habia olvidado hacer el commit del ejercicio complementario 3 por lo que tuve que eliminar y solo dejar la parte del eje 3 por eso los commits son con tan poca diferencia de tiempo
+    //En el guion nos decian de realizar esto pero solo para el indice pero yo acabe haciendolo para todos y por eso en el commit no se ven cambios
     @RequestMapping(value="/professor/edit/{id}", method=RequestMethod.POST)
     public String setEdit(@ModelAttribute Professor professor, @PathVariable Long id){
         professor.setId(id);
