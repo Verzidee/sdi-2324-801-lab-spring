@@ -1,37 +1,31 @@
 package com.uniovi.notaneitor.services;
 
 import com.uniovi.notaneitor.entities.Professor;
+import com.uniovi.notaneitor.repositories.ProfessorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class ProfessorService {
-
-    private List<Professor> professorList = new LinkedList<>();
-    @PostConstruct
-    public void init() {
-        professorList.add(new Professor(1L,"70027988Z","Alberto","Fernandez","Profesor Titular"));
-        professorList.add(new Professor(2L,"93027988Z","Mariano","Garcia","Catedratico"));
-    }
+    @Autowired
+    private ProfessorRepository professorRepository;
     public List<Professor> getProfessors() {
+        List<Professor> professorList = new ArrayList<Professor>();
+        professorRepository.findAll().forEach(professorList::add);
         return professorList;
     }
     public Professor getProfessor(Long id) {
-        return professorList.stream().
-                filter(professor -> professor.getId().equals(id)).findFirst().get();
+        return professorRepository.findById(id).get();
     }
     public void addProfessor(Professor professor) {
-        //Si en ID es null le asignamos el ultimo +1 de la lista
-        if(professor.getId() == null) {
-            professor.setId(professorList.get(professorList.size()-1).getId()+1);
-        }
-        professorList.add(professor);
+        professorRepository.save(professor);
     }
     public void deleteProfessor(Long id) {
-        professorList.removeIf(professor -> professor.getId().equals(id));
+        professorRepository.deleteById(id);
     }
 }

@@ -5,9 +5,8 @@ import com.uniovi.notaneitor.repositories.MarksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
