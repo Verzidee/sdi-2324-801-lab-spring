@@ -42,7 +42,6 @@ public class ProfessorController {
         return "redirect:/professor/list";
     }
 
-    //En el guion nos decian de realizar esto pero solo para el indice pero yo acabe haciendolo para todos y por eso en el commit no se ven cambios
     @RequestMapping(value="/professor/edit/{id}", method=RequestMethod.POST)
     public String setEdit(@ModelAttribute Professor professor, @PathVariable Long id){
         professor.setId(id);
