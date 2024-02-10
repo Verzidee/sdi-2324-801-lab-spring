@@ -15,9 +15,9 @@ public class MarksService {
     private MarksRepository marksRepository;
 
     public List<Mark> getMarks(){
-        List<Mark> marks = new ArrayList<Mark>();
-        marksRepository.findAll().forEach(marks::add);
-        return marks;
+        List<Mark> markList = new ArrayList<Mark>();
+        marksRepository.findAll().forEach(markList::add);
+        return markList;
     }
 
     public Mark getMark(Long id) {

@@ -9,6 +9,9 @@ public class Mark {
     private Long id;
     private String description;
     private Double score;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     public Mark() {
     }
 
@@ -16,6 +19,12 @@ public class Mark {
         this.id = id;
         this.description = description;
         this.score = score;
+    }
+    public Mark(String description, Double score,User user) {
+        super();
+        this.description = description;
+        this.score = score;
+        this.user = user;
     }
     public void setId(Long id) {
         this.id = id;
@@ -39,6 +48,14 @@ public class Mark {
 
     public String getDescription() {
         return description;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
