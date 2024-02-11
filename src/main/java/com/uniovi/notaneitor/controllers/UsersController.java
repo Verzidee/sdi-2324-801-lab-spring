@@ -3,10 +3,13 @@ package com.uniovi.notaneitor.controllers;
 import com.uniovi.notaneitor.entities.User;
 import com.uniovi.notaneitor.services.SecurityService;
 import com.uniovi.notaneitor.services.UsersService;
+import com.uniovi.notaneitor.validators.SignUpFormValidator;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UsersController {
     private final UsersService usersService;
     private final SecurityService securityService;
+    private final SignUpFormValidator signUpFormValidator;
 
-    public UsersController(UsersService usersService, SecurityService securityService) {
+    public UsersController(UsersService usersService, SecurityService securityService, SignUpFormValidator signUpFormValidator) {
         this.usersService = usersService;
         this.securityService = securityService;
+        this.signUpFormValidator = signUpFormValidator;
+
     }
 
     //Obtener el listado de users
@@ -65,13 +71,24 @@ public class UsersController {
         usersService.addUser(user);
         return "redirect:/user/details/" + id;
     }
-    //Login y Register y redireccionamiento a home
+    //Procedimiento Register
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public String signup(Model model) {
+        model.addAttribute("user", new User());
+        return "signup";
+    }
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signup(@ModelAttribute("user") User user, Model model) {
+    public String signup(@Validated User user, BindingResult result) {
+
+        signUpFormValidator.validate(user,result);
+        if(result.hasErrors()) {
+            return "signup";
+        }
         usersService.addUser(user);
-        securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
+        securityService.autoLogin(user.getDni(),user.getPasswordConfirm());
         return "redirect:home";
     }
+    //Procedimiento login no es necesario el POST ya que esta incluido en SecurityService de Spring Security
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
         return "login";
