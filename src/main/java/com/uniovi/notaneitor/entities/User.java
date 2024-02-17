@@ -10,7 +10,8 @@ public class User {
     @Column(unique = true)
     private String dni;
     private String name;
-    private String lastName;private String role;
+    private String lastName;
+    private String role;
     private String password;
     @Transient
     private String passwordConfirm;
@@ -63,5 +64,13 @@ public class User {
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
