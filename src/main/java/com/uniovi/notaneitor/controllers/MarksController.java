@@ -11,19 +11,27 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashSet;
+import java.util.Set;
+
 @Controller
 public class MarksController {
     // Inyectamos el servicio por inyección basada en constructor
     private final MarksService marksService;
     private final UsersService usersService;
     private final MarkAddValidator markAddValidator;
-    public MarksController(MarksService marksService, UsersService usersService, MarkAddValidator markAddValidator) {
+    private final HttpSession httpSession;
+    public MarksController(MarksService marksService, UsersService usersService, MarkAddValidator markAddValidator, HttpSession httpSession) {
         this.marksService = marksService;
         this.usersService = usersService;
         this.markAddValidator = markAddValidator;
+        this.httpSession = httpSession;
     }
     @RequestMapping("/mark/list")
     public String getList(Model model) {
+        Set<Mark> consultedList = (Set<Mark>)(httpSession.getAttribute("consultedList") != null ? httpSession.getAttribute("consultedList") : new HashSet<>());
+        model.addAttribute("consultedList",consultedList);
         model.addAttribute("markList",marksService.getMarks());
         return "mark/list";
     }
