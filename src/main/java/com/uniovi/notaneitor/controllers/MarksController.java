@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,17 +33,19 @@ public class MarksController {
         this.httpSession = httpSession;
     }
     @RequestMapping("/mark/list")
-    public String getList(Model model, Principal principal
+    public String getList(Model model, Pageable pageable,Principal principal
                     ,@RequestParam(value="",required=false) String searchText) {
 
         String dni = principal.getName(); // DNI es el name de la autenticación
         User user = usersService.getUserByDni(dni);
+        Page<Mark> marks;
         if(searchText!=null && !searchText.isEmpty()) {
-            model.addAttribute("markList", marksService.searchMarksByDescriptionAndNameForUser(searchText,user));
+            marks = marksService.searchMarksByDescriptionAndNameForUser(pageable,searchText,user);
         }else {
-            model.addAttribute("markList", marksService.getMarksForUser(user));
+            marks = marksService.getMarksForUser(pageable,user);
         }
-
+        model.addAttribute("markList",marks.getContent());
+        model.addAttribute("page",marks);
         return "mark/list";
     }
     @RequestMapping("/mark/details/{id}")
@@ -87,13 +91,20 @@ public class MarksController {
         marksService.addMark(originalMark);
         return "redirect:/mark/details/"+id;
     }
+
+
+
     @RequestMapping("/mark/list/update")
-    public String updateList(Model model, Principal principal){
+    public String updateList(Model model,Pageable pageable, Principal principal){
         String dni = principal.getName(); // DNI es el name de la autenticación
         User user = usersService.getUserByDni(dni);
-        model.addAttribute("markList", marksService.getMarksForUser(user) );
+        Page<Mark> marks = marksService.getMarksForUser(pageable,user);
+        model.addAttribute("markList", marks.getContent() );
+
         return "mark/list :: marksTable";
     }
+
+
     //Poner a true el atributo resend
     @RequestMapping(value = "/mark/{id}/resend", method = RequestMethod.GET)
     public String setResendTrue(@PathVariable Long id) {
