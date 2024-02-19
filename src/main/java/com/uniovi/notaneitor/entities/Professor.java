@@ -17,6 +17,13 @@ public class Professor {
     public Professor() {
 
     }
+    public Professor(String dni, String nombre, String apellidos, String categoria) {
+        this.id = id;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.categoria = categoria;
+    }
     public Professor(Long id, String dni, String nombre, String apellidos, String categoria) {
         this.id = id;
         this.dni = dni;

@@ -36,6 +36,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mark/delete/*").hasAuthority("ROLE_PROFESSOR")
                 .antMatchers("/mark/**").hasAnyAuthority("ROLE_PROFESSOR","ROLE_STUDENT","ROLE_ADMIN")
                 .antMatchers("user/**").hasAnyRole("ADMIN") //Esto es como si hicieramos hasAuthority("ROLE_PROFESSOR") el has any role pone automaticcamente "ROLE_"
+                .antMatchers("/professor/add").hasRole("ADMIN")
+                .antMatchers("/professor/edit/*").hasRole("ADMIN")
+                .antMatchers("/professor/delete/*").hasRole("ADMIN")
+                .antMatchers("/professor/details/*").hasAnyRole("ADMIN","PROFESSOR")
+                .antMatchers("/professor/**").hasAnyRole("STUDENT","ADMIN","PROFESSOR")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
