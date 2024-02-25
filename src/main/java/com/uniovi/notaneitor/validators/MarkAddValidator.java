@@ -20,7 +20,7 @@ public class MarkAddValidator implements Validator {
             errors.rejectValue("score", "Error.mark.score.range");
         }
         if (mark.getDescription().length() < 20) {
-            errors.rejectValue("description", "Error.mark.description.lenght");
+            errors.rejectValue("description", "Error.mark.description.length");
         }
     }
 }

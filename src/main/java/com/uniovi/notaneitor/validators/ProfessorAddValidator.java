@@ -26,7 +26,7 @@ public class ProfessorAddValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "apellidos", "Error.empty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "categoria", "Error.empty");
         if (professor.getDni().length() != 9 || !Character.isLetter(professor.getDni().charAt(professor.getDni().length() - 1))) {
-            errors.rejectValue("dni", "Error.professor.dni.formato");
+            errors.rejectValue("dni", "Error.professor.dni.format");
         }
         if (professorService.getprofessorByDni(professor.getDni()) != null) {
             errors.rejectValue("dni", "Error.professor.dni.duplicate");
